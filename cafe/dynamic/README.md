@@ -207,7 +207,7 @@ In a new browser tab, try to load the application at `http://<public-ip>/cafe` w
 
 # New business requirement: Creating development and production websites in different AWS Regions (Challenge #3)
 
-Sofía
+![Sofia](sofie.png)
 
 Everyone at the café is impressed with the new dynamic website that Sofía created! Customers are delighted that they can now place online orders and schedule dessert items for pickup. Customer satisfaction has increased because of the reduced customer wait times.
 
@@ -299,14 +299,21 @@ Open the CafeWebServer/setup/set-app-parameters.sh file in the text editor.
 
 Edit line 12 of the file to match this setting:
 
+```shell
 region="us-west-2"
+```
+
 Edit line 18 to match this setting (where <public-dns-of-ProdCafeServer-instance> is the actual DNS of the ProdCafeServer instance):
 
+```shell
 publicDNS="<public-dns-of-ProdCafeServer-instance>"
+```
+
 Note: The line should still contain the quotation marks, but it should not contain the angle brackets (< >).
 
-This example shows what line 12 should look like and how line 18 should be formatted. However, the value of your public DNS will be different.
-php-file
+#### This example shows what line 12 should look like and how line 18 should be formatted. However, the value of your public DNS will be different.
+
+![Php file](setparameter.png)
 
 File > Save the change.
 To run this script, go to the top of the IDE and choose the Run button.
@@ -315,30 +322,35 @@ In the Bash terminal below the text editor, you should see output that's formatt
 If the script encountered an issue, click here to view troubleshooting tips.
 Note: By changing the AWS Region details and running this script again, you created the same parameters that you created earlier in the us-east-1 Region of the AWS Systems Manager Parameter Store. However, this time, you created these parameters in the Oregon Region.
 
-Task 7: Verifying the new café instance
-Return to the EC2 Console in the Oregon Region, and verify that the new ProdCafeServer instance is running.
+## Task: Verifying the new café instance
 
-Copy the IPv4 public IP address, and load it in a web browser.
+- Return to the EC2 Console in the Oregon Region, and verify that the new ProdCafeServer instance is running.
+
+- Copy the IPv4 public IP address, and load it in a web browser.
 
 The Hello from the cafe web server! message should display.
 
-Load the http://<public-ip>/cafe/ URL in a browser tab.
+- Load the http://<public-ip>/cafe/ URL in a browser tab.
 
 The entire café website should display.
 
-Load the Menu page.
+- Load the Menu page.
 
 The full Menu page should load, and the order-placing functionality should work.
 
-Place an order to verify that the website is working as intended.
+- Place an order to verify that the website is working as intended.
 
 Also, if you want to connect to the new EC2 instance in Oregon (us-west-2) to do some troubleshooting, run this command from the AWS Cloud9 IDE in us-east-1:
 
+```shell
 ssh -i ~/.ssh/id_rsa ec2-user@<public-ip-of-ProdCafeServer>
+```
+
 Note that <public-ip-of-ProdCafeServer> is the actual public IP address of the ProdCafeServer instance.
 
-Update from the café
-cafe team
+# Update from the café
+
+![Cafe Team](cafe-team.png)
 
 Sofía is now a hero at the cafe! She created a dynamic website, and she also created a duplicate version of the same website that runs in a second AWS Region.
 
