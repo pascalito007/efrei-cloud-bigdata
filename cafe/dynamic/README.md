@@ -4,80 +4,97 @@
 
 After the café launched the first version of their website, customers told the café staff how nice the website looks. However, in addition to the praise, customers often asked whether they could place online orders.
 
-Sofía, Nikhil, Frank, and Martha discussed the situation. They agreed that their business strategy and decisions should focus on delighting their customers and providing them with the best possible café experience.
+**Sofía, Nikhil, Frank, and Martha** discussed the situation. They agreed that their business strategy and decisions should focus on delighting their customers and providing them with the best possible café experience.
 
-**Lab overview and objectives**
+## Lab overview and objectives
 
-In this lab, you will deploy an application on an Amazon Elastic Compute Cloud (Amazon EC2) instance. The application enables the café to accept online orders. After testing that the application works as intended in the first AWS Region (the development environment), you will then create an Amazon Machine Image (AMI) from the EC2 instance. You will also deploy a second instance of the same application as the production environment in another AWS Region.
+In this lab, you will deploy an application on an **Amazon Elastic Compute Cloud (Amazon EC2)** instance. The application enables the café to accept online orders. After testing that the application works as intended in the first AWS Region (the development environment), you will then create an Amazon Machine Image (AMI) from the EC2 instance. You will also deploy a second instance of the same application as the production environment in another AWS Region.
 
 After completing this lab, you should be able to:
 
-Connect to the AWS Cloud9 IDE on an existing EC2 instance
-Analyze the EC2 instance environment and confirm web server accessibility
-Install a web application on an EC2 instance that also uses AWS Systems Manager Parameter Store
-Test the web application
-Create an AMI
-Deploy a second copy of the web application to another AWS Region
+1. Create an EC2 instance, explore options, deploy a webserver (**httpd**) and confirm web server accessibility
+2. Install a web application on an EC2 instance that also uses AWS Systems Manager Parameter Store
+3. Test the web application
+4. Create an AMI
+5. Deploy a second copy of the web application to another AWS Region
 
 At the end of this lab, your architecture should look like the following example:
 
-![Final Architecture](architecture.png)
+![Final Architecture](m4ch-lab-end-arch.png)
 
-Access the AWS Management Console
+# A business request for the café: Preparing an EC2 instance to host a website (Challenge #1)
 
-**A business request for the café: Preparing an EC2 instance to host a website (Challenge #1)**
+The café wants to introduce online ordering for customers, and enable café staff to view submitted orders. Their current website architecture, where the website is hosted on **Amazon S3**, does not support the new business requirements.
 
-The café wants to introduce online ordering for customers, and enable café staff to view submitted orders. Their current website architecture, where the website is hosted on Amazon S3, does not support the new business requirements.
+In the first part of this lab, you will take on the role of **Sofía**. You will configure an Amazon EC2 instance so that it is ready to host a website for the café.
 
-In the first part of this lab, you will take on the role of Sofía. You will configure an Amazon EC2 instance so that it is ready to host a website for the café.
+## Task: Create an EC2 instance for the website
 
-**Task 1: Create an EC2 instance for the website**
+- SSH to the instance by running below command:
 
-Observe the OS version.
+`ssh -i <key-pair.pem> ec2-user@<public-ec2-ip>`
 
-SSH to the instance and run this command:
+Rplace the <xxxx> with the appropriate values.
+After that, run `sudo yum update -y`
 
-`cat /proc/version`
+- Observe the OS version by issuying below command:
+
+  `cat /proc/version`
 
 Notice how the output indicates it is an Amazon Linux instance, roughly analogous to Red Hat 7.
 
-**Task 2: Install required packages**
+## Task: Install required packages
 
-Observe the web server, database, and PHP details and server state.
+In order to accomplish the requirements, we need a web server, database, and PHP to be installed into the EC2 instance.
 
-In the terminal, run these commands:
+In the instance terminal, run these commands:
+
+```shell
+sudo yum install httpd -y
+sudo systemctl start httpd
+sudo systemctl enable httpd
+
+sudo yum install -y mariadb-server
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+
+sudo yum install php php-mysqlnd -y
+sudo systemctl restart httpd
+```
+
+Now you will verify the installations
 
 ```shell
 sudo httpd -v
-service httpd status
-​
+sudo systemctl status httpd​
 mysql --version
-service mysqld status
+sudo systemctl status mariadb
 ​
 php --version
 ```
 
 The output should show the versions of the web server and the database, and also show that they are not currently running.
 
-Start the web server and the database, and also set them to start automatically after any future EC2 instance restart.
+- Configure the EC2 instance so that you can use the AWS Cloud9 editor to edit web server files.
 
-In the terminal, run these commands:
+Notice that the AWS Cloud9 file browser currently does not display the Apache web server default web directory.
+
+In the terminal, run these two commands:
 
 ```shell
-sudo chkconfig httpd on
-sudo service httpd start
-sudo service httpd status
-​
-sudo chkconfig mysqld on
-sudo service mysqld start
-sudo service mysqld status
+ln -s /var/www/ /home/ec2-user/environment
+sudo chown ec2-user:ec2-user /var/www/html
 ```
 
-**Creating a simple test webpage.**
+The first command you ran created a symlink from the default **AWS Cloud9** editor workspace to the **/var/www** directory that contains your web server files.
 
-In the the **www** directory of the webserver, and highlight the **html** directory.
+The second command changed ownership of the html subdirectory so that the **ec2-user** (which you are logged in as) can edit and create new files in it.
 
-create a new file by using **touch** command.
+## Creating a simple test webpage
+
+In the file browser, expand the **CafeWebServer > www** directory, and highlight the html directory.
+
+**Choose File > New File**.
 
 In the text editor tab, paste the following line:
 
@@ -87,6 +104,7 @@ In the text editor tab, paste the following line:
 </html>
 ```
 
+Choose **File > Save**, and save the file in the html directory as index.html.
 Save the file in the html directory as **index.html**.
 
 Make the website accessible from the internet.
@@ -101,12 +119,11 @@ In the second part of this lab, you will take on the role of Sofía, and install
 
 ## Task: Installing the café application
 
-Download and extract the web server application files.
+- Download and extract the web server application files.
 
 In the Bash terminal, run these commands:
 
 ```shell
-cd ~/environment
 wget https://aws-tc-largeobjects.s3-us-west-2.amazonaws.com/ILT-TF-200-ACACAD-20-EN/mod4-challenge/setup.tar.gz
 tar -zxvf setup.tar.gz
 wget https://aws-tc-largeobjects.s3-us-west-2.amazonaws.com/ILT-TF-200-ACACAD-20-EN/mod4-challenge/db.tar.gz
@@ -119,22 +136,22 @@ Notice how the file browser now shows the three **.tar.gz** files that you downl
 
 You also extracted these archive files, which created the cafe, db, and setup directories in your work environment.
 
-Copy the café files over to the web server document root.
+- Copy the café files over to the web server document root.
 
 In the Bash terminal, run this command:
 
 `mv cafe /var/www/html/`
 
-Observe how the application is designed to work.
+- Observe how the application is designed to work.
 
-Open the html/cafe/index.php source code in the editor.
-Notice that this file has HTML code in it, but it also contains sections that are enclosed in elements. These elements make calls to other systems and resources.
-For example, on line 18, you see that the PHP code references a file named `getAppParameters.php`.
-Open the `getAppParameters.php` file in the code editor.
-Notice on line `3` of this file that the `AWSSDK` is invoked.
-Also, on lines `10–33`, the web application creates a client that connects to the ssm service, which is `AWS Systems Manager`. The application then retrieves seven parameters from Systems Manager. Those parameters have not been created in AWS Systems Manager yet, but you will do that next.
+  - Open the html/cafe/index.php source code in the editor.
+  - Notice that this file has HTML code in it, but it also contains sections that are enclosed in elements. These elements make calls to other systems and resources.
+  - For example, on line 18, you see that the PHP code references a file named `getAppParameters.php`.
+  - Open the `getAppParameters.php` file in the code editor.
+  - Notice on line `3` of this file that the `AWSSDK` is invoked.
+  - Also, on lines `10–33`, the web application creates a client that connects to the ssm service, which is `AWS Systems Manager`. The application then retrieves seven parameters from Systems Manager. Those parameters have not been created in AWS Systems Manager yet, but you will do that next.
 
-In the **AWS Systems Manager Parameter Store**, configure the application parameters.
+- In the **AWS Systems Manager Parameter Store**, configure the application parameters.
 
 In the Bash terminal, run these commands:
 
@@ -145,9 +162,9 @@ cd setup
 
 The shell script that you just ran issued AWS Command Line Interface (AWS CLI) commands. These commands added the parameters that the application will use to the **Parameter Store**.
 
-In the AWS Management Console, from the Services menu, choose **Systems Manager**.
+- In the AWS Management Console, from the Services menu, choose **Systems Manager**.
 
-From the panel on the left, choose **Parameter Store**.
+- From the panel on the left, choose **Parameter Store**.
 
 Notice how there are now seven parameters stored here.
 
@@ -155,7 +172,7 @@ The café application's PHP code references these values (for example, so that i
 
 Choose the **/cafe/dbPassword** parameter, and copy the Value to your clipboard. You will use this value in a moment.
 
-Configure the MySQL database to support the café application.
+- Configure the MySQL database to support the café application.
 
 Back in the bash terminal, run the following commands:
 
