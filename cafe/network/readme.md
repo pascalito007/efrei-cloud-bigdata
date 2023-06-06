@@ -236,62 +236,6 @@ Architecture best practice
 
 In this first challenge, you implemented the architectural best practice of enable people to perform actions at a distance.
 
-Expand here to learn more about it.
-
-## New business requirement: Enhancing the security layer for private resources (Challenge #2)
-
-Sofía and Nikhil are proud of the changes they made to the cafe's application architecture. They are pleased by the additional security they built, and they are also glad to have a test environment that they can use before they deploy updates to the production instance. They tell Mateo about their new application architecture, and he's impressed! To further improve their application security, Mateo advises them to build an additional layer of security by using custom network access control lists (network ACLs).
-
-In this challenge, you will continue to take on the role of one of the café's system administrators. Now that you established secure access from the bastion host to the EC2 instance in the private subnet, you must enhance the security layer of the private subnet. To accomplish this task, you will create and configure a custom network ACL.
-
-## Task 10: Creating a network ACL
-
-In this task, you will create a custom network ACL to control traffic to and from the Private Subnet.
-
-You can use network ACLs to control traffic between subnets. It's a good practice to use network ACLs to implement rules that are similar to your security group rules. The network ACLs provide an additional layer of protection.
-
-For this challenge, you will create an EC2 instance in the Public Subnet. You will create a security group that allows Internet Control Message Protocol (ICMP) traffic from the local network. Next, you will create and configure your custom network ACL to deny ICMP traffic between the Private Subnet and this test instance. ICMP is used by the ping utility.
-
-- Go to the Amazon VPC console, and inspect the default network ACL of Lab VPC.
-
-**Note 1:** The subnets that you created are automatically associated with the default network ACL.
-Note 2: The inbound and outbound rules of the default network ACL allow all traffic.
-
-- Create a custom network ACL called Lab Network ACL for the Lab VPC.
-
-**Note:** The default inbound and outbound rules of the custom network ACL deny all traffic.
-
-- Configure your custom network ACL to allow ALL traffic that goes into and out of the Private Subnet.
-
-**Hint:** If you get stuck, refer to the AWS Documentation.
-
-## Task 11: Testing your custom network ACL
-
-- Create an EC2 instance in the Public Subnet of the Lab VPC. It should meet the following criteria.
-
-      - AMI: Amazon Linux 2023 AMI (HVM)
-      - Instance type: t2.micro
-      - Name: Test Instance
-      - Allows All ICMP – IPv4 inbound traffic to the instance through the security group
-
-  Note the private IP address of the Test Instance.
-
-- Test that you can reach the private IP address of the Test Instance from the Private Instance. From the Private Instance terminal window, run the following ping command:
-
-ping <private-ip-address-of-test-instance>
-
-- Leave the ping utility running.
-
-- Modify your custom network ACL to deny All ICMP – IPv4 traffic to the <private-ip-address-of-test-instance>/32
-
-- Make sure to add /32 to the end of the private IP address.
-  Make sure that this rule is evaluated first.
-  In the Private Instance terminal window, the ping command should stop responding. The traffic to the Test Instance has been blocked.
-
-You have now denied traffic from the Private Subnet to the Test Instance, as shown in the following diagram:
-
-![private EC2 instance to test EC2 instance](final_arch2.png)
-
 **Architecture best practice**
 
 In this second challenge, you protected your network resources by implementing the architectural best practice of controlling traffic at all layers.
