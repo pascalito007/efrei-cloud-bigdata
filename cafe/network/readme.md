@@ -21,7 +21,7 @@ At the end of this lab, your architecture should look like the following example
 # Creating a VPC network infrastructure and host a website (Challenge #1)
 
 In this challenge, you will take on the role of one of the café's system administrators. You will create and configure a VPC network so that you can securely connect using EC2 Instance Connect Endpoint. You will also create a NAT gateway to enable the EC2 instance in your private subnet to access the internet.
-The VPC CIDR is **10.0.0.0/16**
+The VPC CIDR is **10.0.0.0/24**
 
 ## Task 1: Creating a public subnet
 
@@ -36,7 +36,7 @@ Your first task in this lab is to create a public subnet in the newly created VP
   - **Name tag**: Public Subnet
   - **VPC**: Cafe VPC
   - **Availability Zone**: Choose Availability Zone a of your Region
-  - IPv4 CIDR block: 10.0.0.0/24
+  - IPv4 CIDR block: 10.0.0.0/25
 
 - Create a new internet gateway (**cafe-router**) and attach it to the newly created VPC.
 
@@ -79,7 +79,7 @@ In this task, you will create a private subnet in the Cafe VPC.
 
   - **Name tag**: Private Subnet
   - **Availability Zone**: Same as Public Subnet
-  - **IPv4 CIDR block**: 10.0.1.0/24
+  - **IPv4 CIDR block**: 10.0.1.0/25
 
 ## Task 5: Creating a NAT gateway
 
@@ -102,7 +102,7 @@ In this task, you will create a NAT gateway, which enables resources in the Priv
 
 ## Task 6: Creating an EC2 instance in the private subnet
 
-In this task, you will create an EC2 instance in the Private Subnet, and you will configure it to allow SSH traffic from anywhere
+In this task, you will create an EC2 instance in the Private Subnet with a key pair, and you will configure it to allow SSH traffic from anywhere
 
 - Create an EC2 instance in the Private Subnet of the Cafe VPC that meets the following criteria.
 
@@ -148,4 +148,4 @@ In this second challenge, you protected your network resources by implementing t
   - **Question 1:** What is the purpose of the internet gateway in the public subnet?
   - **Question 2:** What allows the instance in the private subnet to connect to the internet so that it can download updates?
   - **Question 3:** Can the instance in the private subnet be accessed directly from the internet?
-  - **Question 4:** Why do you use two EC2 instance connect endpoint and what are the benefits ?
+  - **Question 4:** Why do you use the EC2 instance connect endpoint and what are the benefits ?
