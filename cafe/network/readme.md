@@ -79,7 +79,7 @@ In this task, you will create a private subnet in the Cafe VPC.
 
   - **Name tag**: Private Subnet
   - **Availability Zone**: Same as Public Subnet
-  - **IPv4 CIDR block**: 10.0.1.0/25
+  - **IPv4 CIDR block**: 10.0.0.128/25
 
 ## Task 5: Creating a NAT gateway
 
