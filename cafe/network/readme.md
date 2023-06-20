@@ -102,9 +102,7 @@ In this task, you will create a NAT gateway, which enables resources in the Priv
 
 ## Task 6: Creating an EC2 instance in the private subnet
 
-In this task, you will create an EC2 instance in the Private Subnet, and you will configure it to allow SSH traffic from the bastion host. You will also create a new key pair to access this instance.
-
-- Create a new key pair named vockey2, and download the appropriate .ppk (Microsoft Windows) or .pem (macOS or Linux).
+In this task, you will create an EC2 instance in the Private Subnet, and you will configure it to allow SSH traffic from anywhere
 
 - Create an EC2 instance in the Private Subnet of the Cafe VPC that meets the following criteria.
 
@@ -121,8 +119,6 @@ In this task, you will create an EC2 instance in the Private Subnet, and you wil
             - Source: Bastion host security group
 
   **Hint:** Refer to the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html" target="_blank">AWS Documentation</a>
-
-  Uses the your key pair that you created earlier
 
 ## Task 7: Configuring your EC2 Instance Connect Endpoint and Connect to private instance
 
