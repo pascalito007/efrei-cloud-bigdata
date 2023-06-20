@@ -24,7 +24,7 @@ In this challenge, you will take on the role of one of the café's system admini
 
 ## Task 1: Creating a public subnet
 
-Your first task in this lab is to create a public subnet in the Lab VPC. After you create a public subnet, you will create an internet gateway to allow communication from the subnet to the internet. You will update the routing table that's attached to the subnet to route internet-bound network traffic through the internet gateway.
+Your first task in this lab is to create a public subnet in the newly created VPC. After you create a public subnet, you will create an internet gateway to allow communication from the subnet to the internet. You will update the routing table that's attached to the subnet to route internet-bound network traffic through the internet gateway.
 
 - Open the Amazon VPC console.
 
@@ -33,7 +33,7 @@ Your first task in this lab is to create a public subnet in the Lab VPC. After y
 - Create a public subnet that meets the following criteria:
 
   - **Name tag**: Public Subnet
-  - **VPC**: Lab VPC
+  - **VPC**: Cafe VPC
   - **Availability Zone**: Choose Availability Zone a of your Region
   - IPv4 CIDR block: 10.0.0.0/24
 
@@ -47,7 +47,7 @@ Your first task in this lab is to create a public subnet in the Lab VPC. After y
 
 In this task, you will create a publicly accessible server in the Public Subnet. In later tasks, you will create an EC2 instance in a private subnet and connect to it using EC2 Instance Connect.
 
-- From the Amazon EC2 console, create an EC2 instance in the Public Subnet of the Lab VPC that meets the following criteria:
+- From the Amazon EC2 console, create an EC2 instance in the Public Subnet of the Cafe VPC that meets the following criteria:
 
   - **Amazon Machine Image (AMI)**: Amazon Linux 2023 AMI (HVM)
 
@@ -72,7 +72,7 @@ Follow <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide//ec2-instanc
 
 ## Task 5: Creating a private subnet
 
-In this task, you will create a private subnet in the Lab VPC.
+In this task, you will create a private subnet in the Cafe VPC.
 
 - In the console, create a private subnet that meets the following criteria:
 
@@ -105,7 +105,7 @@ In this task, you will create an EC2 instance in the Private Subnet, and you wil
 
 - Create a new key pair named vockey2, and download the appropriate .ppk (Microsoft Windows) or .pem (macOS or Linux).
 
-- Create an EC2 instance in the Private Subnet of the Lab VPC that meets the following criteria.
+- Create an EC2 instance in the Private Subnet of the Cafe VPC that meets the following criteria.
 
         - AMI: Amazon Linux 2023 AMI (HVM)
 
