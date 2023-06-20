@@ -116,7 +116,7 @@ In this task, you will create an EC2 instance in the Private Subnet, and you wil
 
             - Type: SSH
             - Port: 22
-            - Source: Bastion host security group
+            - Source: anywhere
 
   **Hint:** Refer to the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html" target="_blank">AWS Documentation</a>
 
