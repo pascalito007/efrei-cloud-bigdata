@@ -21,6 +21,7 @@ At the end of this lab, your architecture should look like the following example
 # Creating a VPC network infrastructure and host a website (Challenge #1)
 
 In this challenge, you will take on the role of one of the café's system administrators. You will create and configure a VPC network so that you can securely connect using EC2 Instance Connect Endpoint. You will also create a NAT gateway to enable the EC2 instance in your private subnet to access the internet.
+The VPC CIDR is **10.0.0.0/16**
 
 ## Task 1: Creating a public subnet
 
