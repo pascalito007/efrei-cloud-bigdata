@@ -53,7 +53,7 @@ In this task, you will create a publicly accessible server in the Public Subnet.
 
   - **Instance type**: t2.micro
 
-  - **Auto-assign Public IP**: This setting should be disabled
+  - **Auto-assign Public IP**: This setting should be enable
 
   - **Name**: Bastion Host
 
@@ -70,7 +70,7 @@ In this task, you will create a publicly accessible server in the Public Subnet.
 
 Follow <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide//ec2-instance-connect-methods.html" target="_blank"> these instructions</a> to use EC2 Instance Connect to ssh into the instance
 
-## Task 5: Creating a private subnet
+## Task 4: Creating a private subnet
 
 In this task, you will create a private subnet in the Cafe VPC.
 
@@ -80,7 +80,7 @@ In this task, you will create a private subnet in the Cafe VPC.
   - **Availability Zone**: Same as Public Subnet
   - **IPv4 CIDR block**: 10.0.1.0/24
 
-## Task 6: Creating a NAT gateway
+## Task 5: Creating a NAT gateway
 
 In this task, you will create a NAT gateway, which enables resources in the Private Subnet to connect to the internet.
 
@@ -99,7 +99,7 @@ In this task, you will create a NAT gateway, which enables resources in the Priv
 
 **Hint:** If you get stuck, refer to the AWS Documentation.
 
-## Task 7: Creating an EC2 instance in the private subnet
+## Task 6: Creating an EC2 instance in the private subnet
 
 In this task, you will create an EC2 instance in the Private Subnet, and you will configure it to allow SSH traffic from the bastion host. You will also create a new key pair to access this instance.
 
@@ -123,7 +123,7 @@ In this task, you will create an EC2 instance in the Private Subnet, and you wil
 
   Uses the your key pair that you created earlier
 
-## Task 8: Configuring your EC2 Instance Connect Endpoint and Connect to private instance
+## Task 7: Configuring your EC2 Instance Connect Endpoint and Connect to private instance
 
 - Follow <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-ec2-instance-connect-endpoints.html" target="_blank"> these instructions</a> to create an EC2 Instance Connect Endpoint that can allow to ssh into the private instance.
 
