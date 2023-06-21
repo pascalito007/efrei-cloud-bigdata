@@ -68,8 +68,13 @@ In this task, you will create a publicly accessible server in the Public Subnet.
 ## Task 3: Testing the connection to the public server
 
 - Make sure to install aws cli latest version
+- Configure access to AWS from command line by typing below
 
-Follow <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide//ec2-instance-connect-methods.html" target="_blank"> these instructions</a> to use EC2 Instance Connect to ssh into the instance
+```shell
+aws configure
+```
+
+- Follow <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide//ec2-instance-connect-methods.html" target="_blank"> these instructions</a> to use EC2 Instance Connect to ssh into the instance
 
 ## Task 4: Creating a private subnet
 
