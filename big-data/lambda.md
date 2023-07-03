@@ -114,7 +114,8 @@ Choose Deploy to save your changes.
 
 Next, you will configure Amazon S3 to trigger the Lambda function when a file is uploaded.
 
-Task 2: Configuring an Amazon S3 event
+## Task 2: Configuring an Amazon S3 event
+
 Stores from around the world provide inventory files to load into the inventory tracking system. Instead of uploading their files via FTP, the stores can upload them directly to Amazon S3. They can upload the files through a webpage, a script, or as part of a program. When a file is received, it triggers the Lambda function. This Lambda function will then load the inventory into a DynamoDB table.
 
 Lambda function
@@ -178,8 +179,6 @@ https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-s
 
 These files are the inventory files that you can use to test the system. They are comma-separated values (CSV) files. The following example shows the contents of the Berlin file:
 
-````
-
 store,item,count
 Berlin,Echo Dot,12
 Berlin,Echo (2nd Gen),19
@@ -187,8 +186,6 @@ Berlin,Echo Show,18
 Berlin,Echo Plus,0
 Berlin,Echo Look,10
 Berlin,Amazon Tap,15
-
-```
 
 In the console, return to your S3 bucket by choosing the Objects tab.
 
@@ -370,3 +367,4 @@ If you did not receive a notification, wait a few minutes and upload a different
 
 Try to upload multiple inventory files at the same time. What do you think will happen?
 ```
+````
