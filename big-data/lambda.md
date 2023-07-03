@@ -163,7 +163,7 @@ Load Test
 
 Download the inventory files by opening the context (right-click) menu for these links:
 
-````
+```
 https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-berlin.csv
 
 https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-calcutta.csv
@@ -179,6 +179,7 @@ https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-s
 
 These files are the inventory files that you can use to test the system. They are comma-separated values (CSV) files. The following example shows the contents of the Berlin file:
 
+```
 store,item,count
 Berlin,Echo Dot,12
 Berlin,Echo (2nd Gen),19
@@ -186,6 +187,7 @@ Berlin,Echo Show,18
 Berlin,Echo Plus,0
 Berlin,Echo Look,10
 Berlin,Amazon Tap,15
+```
 
 In the console, return to your S3 bucket by choosing the Objects tab.
 
@@ -208,7 +210,6 @@ Open a new web browser tab, paste the URL, and press ENTER.
 The dashboard application will open and display the inventory data that you loaded into the bucket. The data is retrieved from DynamoDB, which proves that the upload successfully triggered the Lambda function.
 
 ![Dashboard](inventory.png)
-
 
 If the dashboard application does not display any information, ask your instructor to help you diagnose the problem.
 
@@ -302,8 +303,8 @@ print("Event received by Lambda function: " + json.dumps(event, indent=2))
 for record in event['Records']:
 newImage = record['dynamodb'].get('NewImage', None)
 if newImage:
- count = int(record['dynamodb']['NewImage']['Count']['N'])
- if count == 0:
+count = int(record['dynamodb']['NewImage']['Count']['N'])
+if count == 0:
 store = record['dynamodb']['NewImage']['Store']['S']
 item = record['dynamodb']['NewImage']['Item']['S']
 
@@ -366,5 +367,7 @@ Also, you should receive a notification through SMS or email that the store has 
 If you did not receive a notification, wait a few minutes and upload a different inventory file. The DynamoDB trigger can sometimes take a few minutes to enable.
 
 Try to upload multiple inventory files at the same time. What do you think will happen?
+
 ```
-````
+
+```
