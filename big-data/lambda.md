@@ -56,66 +56,55 @@ In the code editor, delete all the code.
 
 In the Code source editor, copy and paste the following code:
 
+```python
 # Load-Inventory Lambda function
-
 #
-
 # This function is triggered by an object being created in an Amazon S3 bucket.
-
 # The file is downloaded and each line is inserted into a DynamoDB table.
-
 import json, urllib, boto3, csv
-
 # Connect to S3 and DynamoDB
-
 s3 = boto3.resource('s3')
 dynamodb = boto3.resource('dynamodb')
-
 # Connect to the DynamoDB tables
-
 inventoryTable = dynamodb.Table('Inventory');
-
 # This handler is run every time the Lambda function is triggered
-
 def lambda_handler(event, context):
+  # Show the incoming event in the debug log
+  print("Event received by Lambda function: " + json.dumps(event, indent=2))
+  # Get the bucket and object key from the Event
+  bucket = event['Records'][0]['s3']['bucket']['name']
+  key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'])
+  localFilename = '/tmp/inventory.txt'
+  # Download the file from S3 to the local filesystem
+  try:
+    s3.meta.client.download_file(bucket, key, localFilename)
+  except Exception as e:
+    print(e)
+    print('Error getting object {} from bucket {}. Make sure they exist and your bucket is in the same region as this function.'.format(key, bucket))
+    raise e
+  # Read the Inventory CSV file
+  with open(localFilename) as csvfile:
+    reader = csv.DictReader(csvfile, delimiter=',')
+    # Read each row in the file
+    rowCount = 0
+    for row in reader:
+      rowCount += 1
+      # Show the row in the debug log
+      print(row['store'], row['item'], row['count'])
+      try:
+        # Insert Store, Item and Count into the Inventory table
+        inventoryTable.put_item(
+          Item={
+            'Store':  row['store'],
+            'Item':   row['item'],
+            'Count':  int(row['count'])})
+      except Exception as e:
+         print(e)
+         print("Unable to insert data into DynamoDB table".format(e))
+    # Finished!
+    return "%d counts inserted" % rowCount
+```
 
-# Show the incoming event in the debug log
-
-print("Event received by Lambda function: " + json.dumps(event, indent=2))
-
-# Get the bucket and object key from the Event
-
-bucket = event['Records'][0]['s3']['bucket']['name']
-key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'])
-localFilename = '/tmp/inventory.txt'
-
-# Download the file from S3 to the local filesystem
-
-try:
-s3.meta.client.download_file(bucket, key, localFilename)
-except Exception as e:
-print(e)
-print('Error getting object {} from bucket {}. Make sure they exist and your bucket is in the same region as this function.'.format(key, bucket))
-raise e
-
-# Read the Inventory CSV file
-
-with open(localFilename) as csvfile:
-reader = csv.DictReader(csvfile, delimiter=',') # Read each row in the file
-rowCount = 0
-for row in reader:
-rowCount += 1 # Show the row in the debug log
-print(row['store'], row['item'], row['count'])
-try: # Insert Store, Item and Count into the Inventory table
-inventoryTable.put_item(
-Item={
-'Store': row['store'],
-'Item': row['item'],
-'Count': int(row['count'])})
-except Exception as e:
-print(e)
-print("Unable to insert data into DynamoDB table".format(e)) # Finished!
-return "%d counts inserted" % rowCount
 Examine the code. It performs the following steps:
 
 Download the file from Amazon S3 that triggered the event
@@ -165,26 +154,31 @@ When an object is created in the bucket, this configuration tells Amazon S3 to t
 
 Your bucket is now ready to receive inventory files!
 
-Task 3: Testing the loading process
+## Task 3: Testing the loading process
+
 You are now ready to test the loading process. You will upload an inventory file, then check that it loaded successfully.
 
 Load Test
 
 Download the inventory files by opening the context (right-click) menu for these links:
 
-inventory-berlin.csv
+````
+https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-berlin.csv
 
-inventory-calcutta.csv
+https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-calcutta.csv
 
-inventory-karachi.csv
+https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-karachi.csv
 
-inventory-pusan.csv
+https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-pusan.csv
 
-inventory-shanghai.csv
+https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-shanghai.csv
 
-inventory-springfield.csv
+https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-springfield.csv
+```
 
 These files are the inventory files that you can use to test the system. They are comma-separated values (CSV) files. The following example shows the contents of the Berlin file:
+
+````
 
 store,item,count
 Berlin,Echo Dot,12
@@ -193,6 +187,9 @@ Berlin,Echo Show,18
 Berlin,Echo Plus,0
 Berlin,Echo Look,10
 Berlin,Amazon Tap,15
+
+```
+
 In the console, return to your S3 bucket by choosing the Objects tab.
 
 Choose Upload
@@ -213,7 +210,8 @@ Open a new web browser tab, paste the URL, and press ENTER.
 
 The dashboard application will open and display the inventory data that you loaded into the bucket. The data is retrieved from DynamoDB, which proves that the upload successfully triggered the Lambda function.
 
-Dashboard
+![Dashboard](inventory.png)
+
 
 If the dashboard application does not display any information, ask your instructor to help you diagnose the problem.
 
@@ -306,8 +304,8 @@ print("Event received by Lambda function: " + json.dumps(event, indent=2))
 
 for record in event['Records']:
 newImage = record['dynamodb'].get('NewImage', None)
-if newImage:  
- count = int(record['dynamodb']['NewImage']['Count']['N'])  
+if newImage:
+ count = int(record['dynamodb']['NewImage']['Count']['N'])
  if count == 0:
 store = record['dynamodb']['NewImage']['Store']['S']
 item = record['dynamodb']['NewImage']['Item']['S']
@@ -371,3 +369,4 @@ Also, you should receive a notification through SMS or email that the store has 
 If you did not receive a notification, wait a few minutes and upload a different inventory file. The DynamoDB trigger can sometimes take a few minutes to enable.
 
 Try to upload multiple inventory files at the same time. What do you think will happen?
+```
