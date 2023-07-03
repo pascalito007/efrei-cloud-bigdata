@@ -1,4 +1,4 @@
-# Lab 1 Introduction
+# Lab Introduction
 
 This module presents an introduction to Amazon Simple Storage Service (Amazon S3). The course begins with Amazon S3 because it is an easy way to start working with the AWS Management Console. Also, because Amazon S3 is used throughout the course, you must know how to create Amazon S3 buckets and load data for subsequent labs.
 
