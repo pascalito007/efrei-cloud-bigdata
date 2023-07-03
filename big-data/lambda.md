@@ -227,7 +227,8 @@ Choose the Items tab.
 
 The data from the inventory file will be displayed. It shows the store, item and inventory count.
 
-Task 4: Configuring notifications
+## Task 4: Configuring notifications
+
 You want to notify inventory management staff when a store runs out of stock for an item. For this serverless notification functionality, you will use Amazon SNS.
 
 Load Test
@@ -251,7 +252,8 @@ After you create an email subscription, you will receive a confirmation email me
 
 Any message that is sent to the SNS topic will be forwarded to your email.
 
-Task 5: Creating a Lambda function to send notifications
+## Task 5: Creating a Lambda function to send notifications
+
 You could modify the existing Load-Inventory Lambda function to check inventory levels while the file is being loaded. However, this configuration is not a good architectural practice. Instead of overloading the Load-Inventory function with business logic, you will create another Lambda function that is triggered when data is loaded into the DynamoDB table. This function will be triggered by a DynamoDB stream.
 
 This architectural approach offers several benefits:
@@ -280,58 +282,43 @@ In the code editor, delete all the code.
 
 Copy the following code, and in the Code Source editor, paste the copied code:
 
+```python
 # Stock Check Lambda function
-
 #
-
 # This function is triggered when values are inserted into the Inventory DynamoDB table.
-
 # Inventory counts are checked and if an item is out of stock, a notification is sent to an SNS Topic.
-
 import json, boto3
-
 # This handler is run every time the Lambda function is triggered
-
 def lambda_handler(event, context):
+  # Show the incoming event in the debug log
+  print("Event received by Lambda function: " + json.dumps(event, indent=2))
+  # For each inventory item added, check if the count is zero
+  for record in event['Records']:
+    newImage = record['dynamodb'].get('NewImage', None)
+    if newImage:
+      count = int(record['dynamodb']['NewImage']['Count']['N'])
+      if count == 0:
+        store = record['dynamodb']['NewImage']['Store']['S']
+        item  = record['dynamodb']['NewImage']['Item']['S']
+        # Construct message to be sent
+        message = store + ' is out of stock of ' + item
+        print(message)
+        # Connect to SNS
+        sns = boto3.client('sns')
+        alertTopic = 'NoStock'
+        snsTopicArn = [t['TopicArn'] for t in sns.list_topics()['Topics']
+                        if t['TopicArn'].lower().endswith(':' + alertTopic.lower())][0]
+        # Send message to SNS
+        sns.publish(
+          TopicArn=snsTopicArn,
+          Message=message,
+          Subject='Inventory Alert!',
+          MessageStructure='raw'
+        )
+  # Finished!
+  return 'Successfully processed {} records.'.format(len(event['Records']))
+```
 
-# Show the incoming event in the debug log
-
-print("Event received by Lambda function: " + json.dumps(event, indent=2))
-
-# For each inventory item added, check if the count is zero
-
-for record in event['Records']:
-newImage = record['dynamodb'].get('NewImage', None)
-if newImage:
-count = int(record['dynamodb']['NewImage']['Count']['N'])
-if count == 0:
-store = record['dynamodb']['NewImage']['Store']['S']
-item = record['dynamodb']['NewImage']['Item']['S']
-
-# Construct message to be sent
-
-message = store + ' is out of stock of ' + item
-print(message)
-
-# Connect to SNS
-
-sns = boto3.client('sns')
-alertTopic = 'NoStock'
-snsTopicArn = [t['TopicArn'] for t in sns.list_topics()['Topics']
-if t['TopicArn'].lower().endswith(':' + alertTopic.lower())][0]
-
-# Send message to SNS
-
-sns.publish(
-TopicArn=snsTopicArn,
-Message=message,
-Subject='Inventory Alert!',
-MessageStructure='raw'
-)
-
-# Finished!
-
-return 'Successfully processed {} records.'.format(len(event['Records']))
 Examine the code. It performs the following steps:
 
 Loop through the incoming records
