@@ -14,7 +14,7 @@ In this lab you will practice using the AWS management console to create an Amaz
 
 # Create IAM user
 
-In this task create an iam user named **djoe** with the required permissions. It is your job to know the required permissions for the user to do the job. Configure CLI access to the user.
+In this task create an iam user named **djoe** with the required permissions. It is your job to know the required permissions for the user to do the job. Configure CLI access to the user. The user need to be part of an IAM group called **data-scienctists**
 
 # Task: Uploading sample data to an S3 bucket
 
