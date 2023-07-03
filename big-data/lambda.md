@@ -161,20 +161,21 @@ You are now ready to test the loading process. You will upload an inventory file
 
 Load Test
 
-Download the inventory files by opening the context (right-click) menu for these links:
+Download below files:
 
 ```
-https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-berlin.csv
+inventory-berlin.csv
 
-https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-calcutta.csv
+inventory-calcutta.csv
 
-https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-karachi.csv
+inventory-karachi.csv
 
-https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-pusan.csv
+inventory-pusan.csv
 
-https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-shanghai.csv
+inventory-shanghai.csv
 
-https://labs.vocareum.com/web/1353657/936130.0/ASNLIB/public/scripts/inventory-springfield.csv
+inventory-springfield.csv
+
 ```
 
 These files are the inventory files that you can use to test the system. They are comma-separated values (CSV) files. The following example shows the contents of the Berlin file:
