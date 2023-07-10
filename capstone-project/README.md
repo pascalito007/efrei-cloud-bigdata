@@ -140,6 +140,11 @@ unzip Example.zip -d /var/www/html/
 chown -R ec2-user:ec2-user /var/www/html
 ```
 
+Note: if the wget command does not works, feel free to download the assets from below links:
+
+- https://efrei-capstone.s3.amazonaws.com/Countrydatadump.sql
+- https://efrei-capstone.s3.amazonaws.com/Example.zip
+
 # The Website
 
 ## Home Page
@@ -310,8 +315,15 @@ Please evaluate below IAM policies
 
 # Big Data - Data Visualization With AWS QuickSight
 
-A sample dataset download from <a href="https://www.kaggle.com/">kaggle</a> is available here. Please make use of this dataset to create some interesting dashboard.
+A sample dataset download from <a href="https://www.kaggle.com/">kaggle</a> is available <a href="https://efrei-capstone.s3.amazonaws.com/Patient-Info.csv">here</a>. Please make use of this dataset to create some interesting dashboard.
 As minimum requirement, your dashboard should be similar to below but feel free to extend it.
 
 ![Patient Dashboard](visualization.png)
 Note: The final result does not matter. What matter is to showcase every actions you took in order to achieve it. So please make sure you take screenshot at each step of your work that demonstrate your work.
+
+# Notations:
+
+**Task 1 (App deployment)**: 10
+**QUIZZ**: 3
+**IAM**: 2
+**AWS Quicksight**: 5
