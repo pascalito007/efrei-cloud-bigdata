@@ -318,6 +318,9 @@ As minimum requirement, your dashboard should be similar to below but feel free 
 
 ![Patient Dashboard](visualization.png)
 Note: The final result does not matter. What matter is to showcase every actions you took in order to achieve it. So please make sure you take screenshot at each step of your work that demonstrate your work.
+
+**_If you are interested to view the original dateset, <a href="https://www.kaggle.com/datasets/sapna123/patientinfo">it is here</a>._**
+
 **Hint:** Make use of insights in order to produce the Period over period and the Top 3 visual
 
 # Notations:
