@@ -26,19 +26,17 @@ Make sure your delete all resources after completing.
 - Delete no longer needed resources and data.
 - If you choose Cloud9, delete the Cloud9 environment when you complete the project (This will automatically delete the created EC2 instance)
 
-- Typically, it is compute-type resources, such as EC2, RDS, Cloud9, NAT Gateway instances, that you leave running that most quickly use up your budget. Turn these off when no longer needed, or better yet, delete them.
+- Typically, it is compute-type resources, such as EC2, RDS, Cloud9, that you leave running that most quickly use up your budget. Turn these off when no longer needed, or better yet, delete them.
 
-- Stop any NAT gateways, EC2 instances, and RDS instances when not in use. If you will be building this solution over the course of a few weeks or months, consider deleting these resources entirely to save budget. You can always recreate them again later.
+- Stop any EC2 instances, and RDS instances when not in use. If you will be building this solution over the course of a few weeks or months, consider deleting these resources entirely to save budget. You can always recreate them again later.
 
   - Be aware that if you do stop an RDS instance or cluster and leave it stopped for seven days, AWS may start it again automatically, which will increase the cost impact.
-  - NAT Gateway resources if left in your account, will also use up your bill.
 
 - Use the <a href="https://calculator.s3.amazonaws.com/index.html">AWS Simple Monthly Calculator</a> or AWS <a href="https://calculator.aws/">Pricing Calculator</a> to estimate cost. Example: the estimate shown in the screenshot below calculated the cost of running the following resources for a month:
 
   - One t3.medium size Linux EC2 instance running 6 hours per day for a month in the us-east-1 Region.
 
   - One db.t2.small size MySQL RDS database with 20GB of storage, left running for a month in the us-east-1 Region.
-  - One NAT Gateway left running, processing 1GB per month in the us-east-1 Region
 
 Pricing is subject to change. The calculation above is just an example from a point in time.
 
@@ -320,6 +318,7 @@ As minimum requirement, your dashboard should be similar to below but feel free 
 
 ![Patient Dashboard](visualization.png)
 Note: The final result does not matter. What matter is to showcase every actions you took in order to achieve it. So please make sure you take screenshot at each step of your work that demonstrate your work.
+**Hint:** Make use of insights in order to produce the Period over period and the Top 3 visual
 
 # Notations:
 
