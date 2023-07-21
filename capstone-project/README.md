@@ -153,6 +153,8 @@ Note: if the wget command does not works, feel free to download the assets from 
 
 ![Search result page](search.png)
 
+***Hint:*** If the search result is not working as expected, please make sure the ec2 has a role attached to it.
+
 # QUIZ
 
 There are some images inside **iam quizz** and **network quizz** folder. Your job is to answer the questions by specifying correct answers.
