@@ -1,5 +1,7 @@
 # AWS Cloud & Big Data Architectures - Project
 
+Please after completing your, work, you should submit it in **SUBMISSION-CBA-RATTRAPAGE** moodle
+
 ---
 
 Table of Contents
